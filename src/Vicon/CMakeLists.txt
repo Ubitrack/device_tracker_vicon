@@ -10,7 +10,7 @@ add_library(${UBITRACK_LIBRARY_NAME} SHARED ${UBITRACK_SRCS})
 target_link_libraries(${UBITRACK_LIBRARY_NAME} 
     CONAN_PKG::ubitrack_core
     CONAN_PKG::ubitrack_dataflow
-    CONAN_PKG::vicon_datastream_sdk
+    CONAN_PKG::vicon-datastream-sdk
     )
 
 # do not create symlinks to versioned names of component libraries

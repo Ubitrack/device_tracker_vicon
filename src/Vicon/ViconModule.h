@@ -43,7 +43,7 @@
 #include <string>
 #include <cstdlib>
 
-#include "ViconDataStreamSDK_CPP/Client.h"
+#include "ViconDataStreamSDK_CPP/DataStreamClient.h"
 
 #include <iostream>
 #include <map>
