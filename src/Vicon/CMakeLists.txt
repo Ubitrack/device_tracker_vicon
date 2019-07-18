@@ -1,4 +1,4 @@
-set(UBITRACK_LIBRARY_NAME device_tracker_art)
+set(UBITRACK_LIBRARY_NAME device_tracker_vicon)
 
 # All cpp files for utvisualization components
 FILE(GLOB UBITRACK_SRCS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
