@@ -21,6 +21,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
+#include <exception>
 
 #include "ViconModule.h"
 #include <iostream>
@@ -162,6 +163,7 @@ bool ViconModule::CreateClient()
     // create Vicon client
     theClient = new Vicon::Client();
 
+
     // print version info
     Vicon::Output_GetVersion ver = theClient->GetVersion();
     LOG4CPP_INFO(logger, "Vicon Tracker via Datastream SDK (ver. " << ver.Major << "." << ver.Minor << "." << ver.Point << ")");
@@ -171,10 +173,14 @@ bool ViconModule::CreateClient()
 	bool clientJustConnected = false;
 	while( !theClient->IsConnected().Connected && tryCount < maxTries)
 	{
-		LOG4CPP_INFO(logger, "Connecting to Vicon server host" << m_serverName << ", try " << (tryCount+1) << "");
+		LOG4CPP_INFO(logger, "Connecting to Vicon server host " << m_serverName << ", try " << (tryCount+1) << "");
 		// Alternatively we could use a Multicast connection
-		theClient->Connect( m_serverName.c_str() );
-		clientJustConnected = theClient->IsConnected().Connected;
+		try {
+			theClient->Connect( m_serverName.c_str() );
+			clientJustConnected = theClient->IsConnected().Connected;
+		} catch (std::exception &e) {
+			LOG4CPP_ERROR( logger, "Error connecting to Vicon Server: " << e.what());
+		}
 		tryCount++;
 		Util::sleep(1000);
 	}
