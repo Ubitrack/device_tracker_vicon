@@ -13,16 +13,25 @@ class UbitrackCoreConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
 
-    requires = (
-        "ubitrack_core/%s@ubitrack/stable" % version,
-        "ubitrack_dataflow/%s@ubitrack/stable" % version,
-        "vicon-datastream-sdk/1.8.0@vendor/stable",
-       )
+    options = {
+        "workspaceBuild" : [True, False],
+            }
 
-    default_options = (
-        "ubitrack_core:shared=True",
-        "ubitrack_dataflow:shared=True",
-        )
+    default_options = {
+        "ubitrack_core:shared" : True,
+        "ubitrack_dataflow:shared" : True,
+        "workspaceBuild" : False,
+        }
+
+    def requirements(self):
+        userChannel = "ubitrack/stable"
+        if self.options.workspaceBuild:
+            userChannel = "local/dev"
+
+
+        self.requires("ubitrack_core/%s@%s" % (self.version, userChannel))
+        self.requires("ubitrack_dataflow/%s@%s" % (self.version, userChannel) )
+        self.requires("vicon-datastream-sdk/1.8.0@vendor/stable")
 
     # all sources are deployed with the package
     exports_sources = "doc/*", "src/*", "CMakeLists.txt"
